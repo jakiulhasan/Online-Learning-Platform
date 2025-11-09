@@ -6,14 +6,14 @@ import ThemeToggle from "./ThemeToggle";
 export default function Navbar() {
   const user = null;
   return (
-    <nav className="bg-base-100 shadow-md">
+    <nav data-aos="fade-down" className="bg-base-100 shadow-md">
       <nav className="text-base-content px-6 py-3 flex items-center justify-between  w-11/12 mx-auto">
         <div className="flex items-center gap-3">
           <img src={logo} alt="Logo" className="h-8" />
         </div>
 
         <ul className="hidden md:flex items-center gap-6 font-semibold">
-          <NavLink to="/home" className="hover:text-primary cursor-pointer">
+          <NavLink to="/" className="hover:text-primary cursor-pointer">
             HOME
           </NavLink>
           <NavLink to="/courses" className="hover:text-primary cursor-pointer">

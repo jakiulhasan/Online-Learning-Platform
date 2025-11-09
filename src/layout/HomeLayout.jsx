@@ -1,14 +1,10 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import { Outlet } from "react-router";
-import Footer from "../components/Footer.jsx";
+import Banner from "../components/Banner";
 
 const HomeLayout = () => {
   return (
     <div>
-      <Navbar></Navbar>
-      <Outlet></Outlet>
-      <Footer></Footer>
+      <Banner></Banner>
     </div>
   );
 };
