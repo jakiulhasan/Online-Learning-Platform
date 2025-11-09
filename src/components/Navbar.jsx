@@ -51,7 +51,7 @@ export default function Navbar() {
               <User size={18} />
             </button>
           ) : (
-            <button className="p-2 hover:bg-base-200 rounded-sm">LOGIN</button>
+            <button className="btn btn-primary">LOGIN</button>
           )}
         </div>
       </nav>
