@@ -65,7 +65,7 @@ const InstructorCard = ({ ed, i }) => {
     <div
       data-aos="flip-right"
       data-aos-delay={i * 150}
-      className="card bg-base-100 shadow-md border border-gray-200 rounded-2xl overflow-hidden relative"
+      className="card bg-base-100 shadow-md border border-gray-200 rounded-2xl overflow-hidden relative hover:border hover:border-b-5 hover:border-secondary transform hover:transition-transform hover:scale-105 ease-in duration-1000"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
