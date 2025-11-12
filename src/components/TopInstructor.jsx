@@ -18,18 +18,20 @@ const TopInstructor = () => {
   return (
     <div className="bg-base-200">
       <div className="py-20 text-center w-11/12 mx-auto">
-        <p className="text-sm font-semibold text-orange-500 uppercase tracking-wide mb-3">
-          Our Expert Educators
-        </p>
-        <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-          Talented Educators Building <br />
-          Tomorrow’s Leaders With Passion
-        </h2>
-        <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-          Our instructors design courses that cultivate leadership, critical
-          thinking, and creativity, preparing learners to excel in today’s
-          dynamic world.
-        </p>
+        <div data-aos="fade-up">
+          <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-3">
+            Our Top Instructor
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+            Talented Educators Building <br />
+            Tomorrow’s Leaders With Passion
+          </h2>
+          <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
+            Our instructors design courses that cultivate leadership, critical
+            thinking, and creativity, preparing learners to excel in today’s
+            dynamic world.
+          </p>
+        </div>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-center">
           {instructors.map((ed, i) => (
