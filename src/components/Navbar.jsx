@@ -1,10 +1,30 @@
 import logo from "../assets/logo.png";
 import { Menu, Search, ShoppingCart, User } from "lucide-react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import ThemeToggle from "./ThemeToggle";
+import { use } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import Loading from "./Loading";
 
 export default function Navbar() {
-  const user = null;
+  const { user, signOutUser, loading } = use(AuthContext);
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
+  const signOut = () => {
+    console.log("clicked sign out");
+    signOutUser()
+      .then(() => {
+        toast.success("Log Out Successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <nav data-aos="fade-down" className="bg-base-100 shadow-md">
       <nav className="text-base-content px-6 py-3 flex items-center justify-between  w-11/12 mx-auto">
@@ -47,11 +67,52 @@ export default function Navbar() {
 
           {/* User */}
           {user ? (
-            <button className="p-2 hover:bg-base-200 rounded-full">
-              <User size={18} />
-            </button>
+            <div className="dropdown z-10 dropdown-hover dropdown-end">
+              <div tabIndex={0} className="cursor-pointer m-1 flex gap-2">
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <RxAvatar className="w-8 h-8" />
+                )}
+              </div>
+              <ul
+                tabIndex={-1}
+                className="dropdown-content menu bg-base-100 rounded-box z-1 w-[300px] p-2 shadow-sm"
+              >
+                <li>
+                  <Link to="/user-profile">
+                    <div>
+                      {user.photoURL ? (
+                        <img
+                          src={user.photoURL}
+                          alt="User Avatar"
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <RxAvatar className="w-8 h-8" />
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold">My Profile</p>
+                      <p className="text-sm">{user.email}</p>
+                    </div>
+                  </Link>
+                </li>
+              </ul>
+            </div>
           ) : (
-            <button className="btn btn-primary">LOGIN</button>
+            <Link to="/auth/login" className="btn">
+              Login
+            </Link>
+          )}
+          {user && (
+            <button className="btn btn-primary" onClick={signOut}>
+              <a>Log Out</a>
+            </button>
           )}
         </div>
       </nav>

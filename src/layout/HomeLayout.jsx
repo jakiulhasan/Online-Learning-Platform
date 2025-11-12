@@ -4,6 +4,7 @@ import PopularCourses from "../components/PopularCourses";
 import TopInstructor from "../components/TopInstructor";
 import AboutSection from "../components/AboutSection";
 
+
 const HomeLayout = () => {
   return (
     <div>
