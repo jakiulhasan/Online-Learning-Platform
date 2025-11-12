@@ -106,7 +106,7 @@ export default function Navbar() {
               </ul>
             </div>
           ) : (
-            <Link to="/auth/login" className="btn">
+            <Link to="/auth/login" className="btn btn-primary">
               Login
             </Link>
           )}

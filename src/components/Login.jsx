@@ -11,6 +11,11 @@ const Login = () => {
   const { userSignIn, googleSignIn } = use(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleForgetPassword = (e) => {
+    const email = e.target.parentNode.parentNode.parentNode.email.value;
+    navigate("/auth/forgot-password", { state: { email } });
+  };
+
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -46,8 +51,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <div className="hero bg-base-200 py-5 md:min-h-[calc(100vh-64px)]">
+    <div className="bg-base-200">
+      <div className="hero py-5 md:min-h-[calc(100vh-64px)]">
         <div
           data-aos="zoom-in-up"
           className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"
@@ -90,7 +95,7 @@ const Login = () => {
 
                 <div className="mt-2">
                   <a
-                    // onClick={handleForgetPassword}
+                    onClick={handleForgetPassword}
                     className="link link-hover text-sm"
                   >
                     Forgot password?

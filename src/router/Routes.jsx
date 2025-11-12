@@ -5,6 +5,8 @@ import HomeLayout from "../layout/HomeLayout";
 import AuthLayout from "../layout/AuthLayout";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import ForgetPassword from "../components/ForgetPassword";
+import AuthChecker from "../context/AuthChecker";
 
 const Routes = createBrowserRouter([
   {
@@ -21,11 +23,23 @@ const Routes = createBrowserRouter([
         children: [
           {
             path: "/auth/login",
-            element: <Login></Login>,
+            element: (
+              <AuthChecker>
+                <Login></Login>,
+              </AuthChecker>
+            ),
           },
           {
             path: "/auth/register",
-            element: <Register></Register>,
+            element: (
+              <AuthChecker>
+                <Register></Register>,
+              </AuthChecker>
+            ),
+          },
+          {
+            path: "/auth/forgot-password",
+            element: <ForgetPassword></ForgetPassword>,
           },
         ],
       },
