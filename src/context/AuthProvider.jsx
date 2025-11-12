@@ -3,11 +3,14 @@ import { AuthContext } from "./AuthContext";
 import { auth } from "../firebase/firebase.config";
 import axiosInstance from "./Axios";
 import {
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 
 const AuthProvider = ({ children }) => {
@@ -21,10 +24,20 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
   }, []);
+  const createAccount = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
   const userSignIn = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
+  const updateUserProfile = (profile) => {
+    return updateProfile(auth.currentUser, profile);
+  };
+  const passwordReset = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
   const GoogleProvider = new GoogleAuthProvider();
   const googleSignIn = () => {
     return signInWithPopup(auth, GoogleProvider);
@@ -43,6 +56,9 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const authData = {
+    passwordReset,
+    createAccount,
+    updateUserProfile,
     signOutUser,
     googleSignIn,
     userSignIn,

@@ -1,11 +1,10 @@
 import React, { use, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router";
-import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
-import { Helmet } from "react-helmet-async";
+import { AuthContext } from "../context/AuthContext";
 
 const RegexLower = /[a-z]/;
 const RegexHigher = /[A-Z]/;
@@ -48,6 +47,7 @@ const Register = () => {
 
   const handleRegistration = (event) => {
     event.preventDefault();
+    console.log("Register button clicked");
     const form = event.target;
     const name = form.name.value;
     const image = form.image.value;
@@ -81,11 +81,11 @@ const Register = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>Register</title>
-      </Helmet>
       <div className="hero bg-base-200 py-5 md:min-h-screen">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div
+          data-aos="zoom-in-up"
+          className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"
+        >
           <div className="card-body">
             <form onSubmit={handleRegistration}>
               <h2 className="font-semibold text-2xl text-center mb-3">
@@ -185,7 +185,7 @@ const Register = () => {
             </button>
             <p className="text-center mt-3">
               Already have an account?{" "}
-              <Link to="/login" className="font-semibold text-red-500">
+              <Link to="/auth/login" className="font-semibold text-red-500">
                 Login
               </Link>
             </p>

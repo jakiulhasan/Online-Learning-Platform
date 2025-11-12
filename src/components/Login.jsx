@@ -48,7 +48,10 @@ const Login = () => {
   return (
     <div>
       <div className="hero bg-base-200 py-5 md:min-h-[calc(100vh-64px)]">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div
+          data-aos="zoom-in-up"
+          className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"
+        >
           <div className="card-body">
             <form onSubmit={handleLogin}>
               <h2 className="font-semibold text-2xl text-center mb-3">

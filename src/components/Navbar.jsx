@@ -6,6 +6,7 @@ import { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import Loading from "./Loading";
+import { RxAvatar } from "react-icons/rx";
 
 export default function Navbar() {
   const { user, signOutUser, loading } = use(AuthContext);
