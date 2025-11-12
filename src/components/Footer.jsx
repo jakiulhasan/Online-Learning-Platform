@@ -13,7 +13,7 @@ import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   return (
     <footer data-aos="fade-up" className="bg-base-300 text-base-content py-10">
-      <div className="w-11/12 mx-auto px-5">
+      <div className="max-w-6xl mx-auto px-5">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-10">
           <div className="space-y-4">
             <img src={logo} alt="logo" className="w-32" />

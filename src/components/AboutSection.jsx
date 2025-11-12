@@ -7,7 +7,7 @@ import flexible from "../assets/flexible.png";
 
 const AboutSection = () => {
   return (
-    <section className="w-11/12 mx-auto py-16 bg-base-100 text-base-content">
+    <section className="max-w-6xl mx-auto py-16 bg-base-100 text-base-content">
       {/* Top Section */}
       <div className="px-6 grid lg:grid-cols-2 gap-10 items-center">
         {/* Left Content */}

@@ -7,7 +7,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 const Banner = () => {
   return (
     <div className="bg-base-200 py-5 h-[calc(100vh-64px)] flex items-center">
-      <div className="w-11/12 mx-auto md:flex items-center">
+      <div className="max-w-6xl mx-auto md:flex items-center">
         <div className="flex-1">
           <p className="text-secondary" data-aos="fade-right">
             Welcome to Educate

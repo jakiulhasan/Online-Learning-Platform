@@ -24,7 +24,7 @@ const PopularCourses = () => {
 
   return (
     <div className="flex items-center">
-      <div className="py-16 bg-base mx-auto w-11/12">
+      <div className="py-16 bg-base mx-auto max-w-6xl">
         <div data-aos="fade-down" className="text-center">
           <h4 className="text-secondary font-semibold uppercase tracking-wide mb-2">
             Our Popular Courses

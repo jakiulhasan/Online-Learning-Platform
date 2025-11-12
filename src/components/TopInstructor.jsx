@@ -17,7 +17,7 @@ const TopInstructor = () => {
 
   return (
     <div className="bg-base-200">
-      <div className="py-20 text-center w-11/12 mx-auto">
+      <div className="py-20 text-center max-w-6xl mx-auto">
         <div data-aos="fade-up">
           <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-3">
             Our Top Instructor
