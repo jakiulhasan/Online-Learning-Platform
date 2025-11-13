@@ -47,7 +47,6 @@ const CourseDetails = () => {
     requirements,
     outcomes,
     curriculum,
-    reviews_sample,
     certificate_included,
   } = sp_course;
 

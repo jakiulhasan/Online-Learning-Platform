@@ -9,6 +9,7 @@ import ForgetPassword from "../components/ForgetPassword";
 import AuthChecker from "../context/AuthChecker";
 import CoursesLayout from "../layout/CoursesLayout";
 import CourseDetails from "../components/CourseDetails";
+import PrivateRoute from "../context/PrivateRoute";
 
 const Routes = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/courses/:id",
-        element: <CourseDetails></CourseDetails>,
+        element: (
+          <PrivateRoute>
+            <CourseDetails></CourseDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/auth",
