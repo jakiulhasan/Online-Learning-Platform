@@ -1,13 +1,16 @@
-import React, { use, useState, useEffect } from "react";
+import React, { useState, use } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import axiosInstance from "../context/Axios";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
 import Loading from "./Loading";
+import { useNavigate } from "react-router";
 
 const AddCourse = () => {
+  const navigate = useNavigate();
   const { user, loading } = use(AuthContext);
+
   const [formData, setFormData] = useState({
     title: "",
     imageUrl: "",
@@ -16,15 +19,9 @@ const AddCourse = () => {
     category: "",
     description: "",
     isFeatured: false,
-    email: "",
   });
 
-  useEffect(() => {
-    if (user?.email) {
-      setFormData((prev) => ({ ...prev, email: user.email }));
-    }
-  }, [user]);
-
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -33,11 +30,22 @@ const AddCourse = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axiosInstance.post("/add-course", formData).then((data) => {
-      if (data.data.insertedId) {
+    if (!user) return; // safety check
+
+    const dataToSend = {
+      ...formData,
+      email: user.email,
+      name: user.displayName,
+      photoUrl: user.photoURL,
+    };
+
+    try {
+      const res = await axiosInstance.post("/add-course", dataToSend);
+      if (res.data.insertedId) {
         Swal.fire({
           position: "center",
           icon: "success",
@@ -45,24 +53,35 @@ const AddCourse = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-      }
 
-      setFormData({
-        title: "",
-        imageUrl: "",
-        price: "",
-        duration: "",
-        category: "",
-        description: "",
-        isFeatured: false,
-        email: user.email,
+        navigate("/courses/my-courses");
+        // Reset form
+        setFormData({
+          title: "",
+          imageUrl: "",
+          price: "",
+          duration: "",
+          category: "",
+          description: "",
+          isFeatured: false,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
       });
-    });
+    }
   };
 
-  if (loading || !user?.email) {
-    return <Loading />;
-  }
+  if (loading || !user?.email) return <Loading />;
+
+  const inputVariants = (x) => ({
+    initial: { opacity: 0, x },
+    animate: { opacity: 1, x: 0 },
+  });
 
   return (
     <motion.div
@@ -78,8 +97,9 @@ const AddCourse = () => {
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Title */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
+          variants={inputVariants(-40)}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.1 }}
         >
           <label className="block font-medium mb-1">Title</label>
@@ -96,8 +116,9 @@ const AddCourse = () => {
 
         {/* Image URL */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
+          variants={inputVariants(40)}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.2 }}
         >
           <label className="block font-medium mb-1">Image URL</label>
@@ -114,8 +135,9 @@ const AddCourse = () => {
 
         {/* Price */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
+          variants={inputVariants(-40)}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.3 }}
         >
           <label className="block font-medium mb-1">Price (USD)</label>
@@ -132,8 +154,9 @@ const AddCourse = () => {
 
         {/* Duration */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
+          variants={inputVariants(40)}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.4 }}
         >
           <label className="block font-medium mb-1">Duration (hours)</label>
@@ -151,8 +174,9 @@ const AddCourse = () => {
 
         {/* Category */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
+          variants={inputVariants(-40)}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.5 }}
         >
           <label className="block font-medium mb-1">Category</label>
@@ -173,8 +197,9 @@ const AddCourse = () => {
 
         {/* Description */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
+          variants={inputVariants(40)}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.6 }}
         >
           <label className="block font-medium mb-1">Description</label>

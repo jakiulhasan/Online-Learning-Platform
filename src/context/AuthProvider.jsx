@@ -23,7 +23,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     axiosInstance.get("/courses").then((res) => {
       setCourses(res.data);
-      setLoading(false);
     });
   }, []);
 
