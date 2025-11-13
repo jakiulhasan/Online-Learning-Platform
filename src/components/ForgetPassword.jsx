@@ -1,7 +1,6 @@
 import React, { use } from "react";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
-import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../context/AuthContext";
 
 const ForgetPassword = () => {

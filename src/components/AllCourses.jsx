@@ -182,7 +182,7 @@ const AllCourses = () => {
                     </div>
                   </div>
                   <Link
-                    to={`/${course._id}`}
+                    to={`/courses/${course._id}`}
                     className="w-full btn btn-primary py-2"
                   >
                     View More Detail →

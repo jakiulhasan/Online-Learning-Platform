@@ -8,6 +8,7 @@ import Register from "../components/Register";
 import ForgetPassword from "../components/ForgetPassword";
 import AuthChecker from "../context/AuthChecker";
 import CoursesLayout from "../layout/CoursesLayout";
+import CourseDetails from "../components/CourseDetails";
 
 const Routes = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const Routes = createBrowserRouter([
       {
         path: "/courses",
         element: <CoursesLayout></CoursesLayout>,
+      },
+      {
+        path: "/courses/:id",
+        element: <CourseDetails></CourseDetails>,
       },
       {
         path: "/auth",
