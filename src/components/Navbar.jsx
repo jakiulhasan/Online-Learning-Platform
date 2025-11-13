@@ -27,7 +27,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav data-aos="fade-down" className="bg-base-100 shadow-md">
+    <nav data-aos="fade-down" className="z-50 bg-base-100 relative shadow-md">
       <nav className="text-base-content px-6 py-3 flex items-center justify-between  max-w-6xl mx-auto">
         <div className="flex items-center gap-3">
           <img src={logo} alt="Logo" className="h-8" />
@@ -67,7 +67,7 @@ export default function Navbar() {
           <ThemeToggle></ThemeToggle>
 
           {/* User */}
-          {user ? (
+          {/* {user ? (
             <div className="dropdown z-10 dropdown-hover dropdown-end">
               <div tabIndex={0} className="cursor-pointer m-1 flex gap-2">
                 {user.photoURL ? (
@@ -103,6 +103,79 @@ export default function Navbar() {
                     </div>
                   </Link>
                 </li>
+                <li>
+                  My Courses
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link to="/auth/login" className="btn btn-primary">
+              Login
+            </Link>
+          )} */}
+
+          {user ? (
+            <div className="dropdown dropdown-hover dropdown-end">
+              <div
+                tabIndex={0}
+                className="cursor-pointer m-1 flex gap-2 items-center"
+              >
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <RxAvatar className="w-8 h-8" />
+                )}
+              </div>
+
+              <ul
+                tabIndex={-1}
+                className="dropdown-content menu z-100 bg-base-100 rounded-box w-[280px] p-2 shadow-md"
+              >
+                <li>
+                  <Link to="/user-profile" className="flex items-center gap-2">
+                    {user.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        alt="User Avatar"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <RxAvatar className="w-8 h-8" />
+                    )}
+                    <div>
+                      <p className="font-semibold">My Profile</p>
+                      <p className="text-sm text-gray-500">{user.email}</p>
+                    </div>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/courses/add-course">Add Course</Link>
+                </li>
+                <li>
+                  <Link to="/my-courses">My Courses</Link>
+                </li>
+                <li>
+                  <Link to="/update-courses">Update Courses</Link>
+                </li>
+                <li>
+                  <Link to="/my-enrolled-courses">My Enrolled Courses</Link>
+                </li>
+
+                <div className="divider my-1"></div>
+
+                <li>
+                  <button
+                    onClick={signOut}
+                    className="text-red-500 hover:text-red-600"
+                  >
+                    Logout
+                  </button>
+                </li>
               </ul>
             </div>
           ) : (
@@ -110,11 +183,12 @@ export default function Navbar() {
               Login
             </Link>
           )}
-          {user && (
+
+          {/* {user && (
             <button className="btn btn-primary" onClick={signOut}>
               <a>Log Out</a>
             </button>
-          )}
+          )} */}
         </div>
       </nav>
     </nav>

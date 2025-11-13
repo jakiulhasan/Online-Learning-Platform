@@ -10,6 +10,7 @@ import AuthChecker from "../context/AuthChecker";
 import CoursesLayout from "../layout/CoursesLayout";
 import CourseDetails from "../components/CourseDetails";
 import PrivateRoute from "../context/PrivateRoute";
+import AddCourse from "../components/AddCourses";
 
 const Routes = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const Routes = createBrowserRouter([
       {
         path: "/courses",
         element: <CoursesLayout></CoursesLayout>,
+      },
+      {
+        path: "/courses/add-course",
+        element: <AddCourse></AddCourse>,
       },
       {
         path: "/courses/:id",
