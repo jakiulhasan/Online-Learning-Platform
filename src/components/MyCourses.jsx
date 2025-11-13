@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import axiosInstance from "../context/Axios";
@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const MyCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loadingCourses, setLoadingCourses] = useState(true);
-  const { user, loading } = React.useContext(AuthContext);
+  const { user, loading } = use(AuthContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);

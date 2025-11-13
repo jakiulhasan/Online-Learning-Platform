@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { use, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, Navigate, useNavigate, useLocation } from "react-router";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { userSignIn, googleSignIn } = useContext(AuthContext);
+  const { userSignIn, googleSignIn } = use(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleForgetPassword = (e) => {

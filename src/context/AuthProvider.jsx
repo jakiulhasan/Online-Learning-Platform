@@ -71,9 +71,7 @@ const AuthProvider = ({ children }) => {
     user,
   };
 
-  return (
-    <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext value={authData}>{children}</AuthContext>;
 };
 
 export default AuthProvider;

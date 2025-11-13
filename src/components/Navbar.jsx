@@ -163,7 +163,9 @@ export default function Navbar() {
                   <Link to="/update-courses">Update Courses</Link>
                 </li>
                 <li>
-                  <Link to="/my-enrolled-courses">My Enrolled Courses</Link>
+                  <Link to="/courses/my-enrolled-courses">
+                    My Enrolled Courses
+                  </Link>
                 </li>
 
                 <div className="divider my-1"></div>

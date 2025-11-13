@@ -13,6 +13,7 @@ import PrivateRoute from "../context/PrivateRoute";
 import AddCourse from "../components/AddCourses";
 import MyCourses from "../components/MyCourses";
 import Dashboard from "../components/DashBoard";
+import MyEnrollment from "../components/MyEnrollment";
 
 const Routes = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const Routes = createBrowserRouter([
       {
         path: "/courses/add-course",
         element: <AddCourse></AddCourse>,
+      },
+      {
+        path: "/courses/my-enrolled-courses",
+        element: <MyEnrollment></MyEnrollment>,
       },
       {
         path: "/courses/:id",
