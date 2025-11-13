@@ -157,7 +157,7 @@ export default function Navbar() {
                   <Link to="/courses/add-course">Add Course</Link>
                 </li>
                 <li>
-                  <Link to="/my-courses">My Courses</Link>
+                  <Link to="/courses/my-courses">My Courses</Link>
                 </li>
                 <li>
                   <Link to="/update-courses">Update Courses</Link>

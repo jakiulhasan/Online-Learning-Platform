@@ -13,6 +13,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+const GoogleProvider = new GoogleAuthProvider();
+
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [courses, setCourses] = useState();
@@ -24,6 +26,7 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
   }, []);
+
   const createAccount = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -38,7 +41,6 @@ const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
-  const GoogleProvider = new GoogleAuthProvider();
   const googleSignIn = () => {
     return signInWithPopup(auth, GoogleProvider);
   };
@@ -69,7 +71,9 @@ const AuthProvider = ({ children }) => {
     user,
   };
 
-  return <AuthContext value={authData}>{children}</AuthContext>;
+  return (
+    <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

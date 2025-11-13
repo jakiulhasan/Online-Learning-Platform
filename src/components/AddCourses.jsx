@@ -1,13 +1,13 @@
-import React, { use, useState } from "react";
+import React, { use, useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import axiosInstance from "../context/Axios";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
+import Loading from "./Loading";
 
 const AddCourse = () => {
-  const { user } = use(AuthContext);
-  console.log(user);
+  const { user, loading } = use(AuthContext);
   const [formData, setFormData] = useState({
     title: "",
     imageUrl: "",
@@ -16,8 +16,14 @@ const AddCourse = () => {
     category: "",
     description: "",
     isFeatured: false,
-    email: user.email,
+    email: "",
   });
+
+  useEffect(() => {
+    if (user?.email) {
+      setFormData((prev) => ({ ...prev, email: user.email }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -29,20 +35,8 @@ const AddCourse = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can send data to server using axiosInstance.post("/courses", formData)
-    setFormData({
-      title: "",
-      imageUrl: "",
-      price: "",
-      duration: "",
-      category: "",
-      description: "",
-      isFeatured: false,
-      email: user.email,
-    });
 
     axiosInstance.post("/add-course", formData).then((data) => {
-      console.log("after post call", data.data);
       if (data.data.insertedId) {
         Swal.fire({
           position: "center",
@@ -52,8 +46,23 @@ const AddCourse = () => {
           timer: 1500,
         });
       }
+
+      setFormData({
+        title: "",
+        imageUrl: "",
+        price: "",
+        duration: "",
+        category: "",
+        description: "",
+        isFeatured: false,
+        email: user.email,
+      });
     });
   };
+
+  if (loading || !user?.email) {
+    return <Loading />;
+  }
 
   return (
     <motion.div

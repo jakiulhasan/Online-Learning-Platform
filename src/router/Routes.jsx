@@ -11,6 +11,7 @@ import CoursesLayout from "../layout/CoursesLayout";
 import CourseDetails from "../components/CourseDetails";
 import PrivateRoute from "../context/PrivateRoute";
 import AddCourse from "../components/AddCourses";
+import MyCourses from "../components/MyCourses";
 
 const Routes = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const Routes = createBrowserRouter([
       {
         path: "/courses",
         element: <CoursesLayout></CoursesLayout>,
+      },
+      {
+        path: "/courses/my-courses",
+        element: (
+          <PrivateRoute>
+            <MyCourses></MyCourses>,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/courses/add-course",
