@@ -15,6 +15,7 @@ import MyCourses from "../components/MyCourses";
 import Dashboard from "../components/DashBoard";
 import MyEnrollment from "../components/MyEnrollment";
 import Error404 from "../components/Error404";
+import UpdateCourse from "../components/UpdateCourse";
 
 const Routes = createBrowserRouter([
   {
@@ -25,13 +26,14 @@ const Routes = createBrowserRouter([
         index: true,
         element: <HomeLayout></HomeLayout>,
       },
-      {
-        path: "/*",
-        element: <Error404></Error404>,
-      },
+
       {
         path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: (
+          <PrivateRoute>
+            <Dashboard></Dashboard>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/courses",
@@ -46,12 +48,28 @@ const Routes = createBrowserRouter([
         ),
       },
       {
+        path: "/courses/my-courses/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateCourse></UpdateCourse>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "/courses/add-course",
-        element: <AddCourse></AddCourse>,
+        element: (
+          <PrivateRoute>
+            <AddCourse></AddCourse>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/courses/my-enrolled-courses",
-        element: <MyEnrollment></MyEnrollment>,
+        element: (
+          <PrivateRoute>
+            <MyEnrollment></MyEnrollment>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/courses/:id",
@@ -88,6 +106,10 @@ const Routes = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/*",
+    element: <Error404></Error404>,
   },
 ]);
 

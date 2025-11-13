@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import axiosInstance from "../context/Axios";
 import { AuthContext } from "../context/AuthContext";
 import Loading from "./Loading";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { Title } from "react-head";
 
 const MyCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -22,6 +23,8 @@ const MyCourses = () => {
     duration: "",
     category: "",
   });
+
+  const navigate = useNavigate();
 
   const email = user?.email;
 
@@ -52,6 +55,10 @@ const MyCourses = () => {
     });
     setModalMode(mode);
     setIsModalOpen(true);
+  };
+
+  const handleNavigate = (id) => {
+    navigate(`/courses/my-courses/${id}`);
   };
 
   // Save updates
@@ -104,7 +111,7 @@ const MyCourses = () => {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      {/* Header */}
+      <Title>My Courses | TURITOR</Title>;{/* Header */}
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-bold mb-2">
           Explore <span className="text-secondary">Your</span> Courses
@@ -115,7 +122,6 @@ const MyCourses = () => {
         </p>
         <hr className="border-t-2 border-gray-300 w-24 mx-auto mt-2" />
       </div>
-
       {/* Course Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence>
@@ -162,7 +168,7 @@ const MyCourses = () => {
                   View
                 </button>
                 <button
-                  onClick={() => openModal(course, "edit")}
+                  onClick={() => handleNavigate(course._id)}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
                 >
                   Update
@@ -178,7 +184,6 @@ const MyCourses = () => {
           ))}
         </AnimatePresence>
       </div>
-
       {/* Empty State */}
       {courses.length === 0 && (
         <div className="flex flex-col items-center justify-center h-full text-center p-6 bg-base-100 rounded-lg shadow-md mt-10">
@@ -206,7 +211,6 @@ const MyCourses = () => {
           </Link>
         </div>
       )}
-
       {/* Modal */}
       {isModalOpen && selectedCourse && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">

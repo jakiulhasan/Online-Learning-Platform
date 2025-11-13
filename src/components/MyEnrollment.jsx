@@ -4,6 +4,7 @@ import axiosInstance from "../context/Axios";
 import Loading from "./Loading";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { Title } from "react-head";
 
 const MyEnrollment = () => {
   const { courses, user, loading } = use(AuthContext);
@@ -40,7 +41,7 @@ const MyEnrollment = () => {
   }
   return (
     <div>
-      {/* enrollment section */}
+      <Title>My Enrollment | TURITOR</Title>;{/* enrollment section */}
       <section className="my-10 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-6 text-center">
           My <span className="text-indigo-600">Enrollments</span>

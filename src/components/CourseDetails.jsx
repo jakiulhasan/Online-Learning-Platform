@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 import ReviewChart from "./ReviewChart";
 import Swal from "sweetalert2";
+import { Title } from "react-head";
 
 const CourseDetails = () => {
   const { user, loading } = use(AuthContext);
@@ -91,7 +92,7 @@ const CourseDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto py-20 px-4">
-      {/* Hero Section */}
+      <Title>Course Details | TURITOR</Title>;{/* Hero Section */}
       <div className="grid md:grid-cols-2 gap-8 mb-25">
         <div>
           <img
@@ -154,9 +155,7 @@ const CourseDetails = () => {
           </button>
         </div>
       </div>
-
       {/* Instructor Section */}
-
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -223,7 +222,6 @@ const CourseDetails = () => {
           </div>
         </div>
       </motion.div>
-
       <div className="grid md:grid-cols-2 gap-10 text-center mt-20">
         {/* Description */}
         <div className="mt-10">
@@ -280,7 +278,6 @@ const CourseDetails = () => {
         {/* Chart */}
         <ReviewChart distribution={sp_course.rating?.distribution} />
       </div>
-
       {/* Certificate */}
       {certificate_included && (
         <div className="mt-10 p-5 bg-green-50 border border-green-200 rounded-xl">

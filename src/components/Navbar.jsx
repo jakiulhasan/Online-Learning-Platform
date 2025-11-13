@@ -46,12 +46,6 @@ export default function Navbar() {
           >
             DASHBOARD
           </NavLink>
-          <NavLink to="/about" className="hover:text-primary cursor-pointer">
-            ABOUT
-          </NavLink>
-          <NavLink to="/contact" className="hover:text-primary cursor-pointer">
-            CONTACT
-          </NavLink>
         </ul>
 
         <div className="hidden lg:flex items-center bg-base-200 rounded-md px-2 ml-4">
@@ -65,54 +59,6 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4 ml-4">
           <ThemeToggle></ThemeToggle>
-
-          {/* User */}
-          {/* {user ? (
-            <div className="dropdown z-10 dropdown-hover dropdown-end">
-              <div tabIndex={0} className="cursor-pointer m-1 flex gap-2">
-                {user.photoURL ? (
-                  <img
-                    src={user.photoURL}
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                ) : (
-                  <RxAvatar className="w-8 h-8" />
-                )}
-              </div>
-              <ul
-                tabIndex={-1}
-                className="dropdown-content menu bg-base-100 rounded-box z-1 w-[300px] p-2 shadow-sm"
-              >
-                <li>
-                  <Link to="/user-profile">
-                    <div>
-                      {user.photoURL ? (
-                        <img
-                          src={user.photoURL}
-                          alt="User Avatar"
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      ) : (
-                        <RxAvatar className="w-8 h-8" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-semibold">My Profile</p>
-                      <p className="text-sm">{user.email}</p>
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  My Courses
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <Link to="/auth/login" className="btn btn-primary">
-              Login
-            </Link>
-          )} */}
 
           {user ? (
             <div className="dropdown dropdown-hover dropdown-end">
@@ -158,9 +104,6 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link to="/courses/my-courses">My Courses</Link>
-                </li>
-                <li>
-                  <Link to="/update-courses">Update Courses</Link>
                 </li>
                 <li>
                   <Link to="/courses/my-enrolled-courses">

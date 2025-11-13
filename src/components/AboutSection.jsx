@@ -12,7 +12,7 @@ const AboutSection = () => {
       <div className="px-6 grid lg:grid-cols-2 gap-10 items-center">
         {/* Left Content */}
         <div data-aos="fade-right">
-          <p className="text-sm font-semibold text-center text-orange-500 uppercase mb-2">
+          <p className="text-sm font-semibold text-center text-secondary uppercase mb-2">
             Why Choose Us
           </p>
           <h2 className="text-4xl font-bold leading-tight mb-4">

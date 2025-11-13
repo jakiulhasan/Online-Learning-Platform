@@ -11,9 +11,4 @@ export default defineConfig({
   daisyui: {
     themes: ["light", "dark"],
   },
-
-  optimizeDeps: {
-    force: true,
-    include: ["react", "react-dom", "recharts"],
-  },
 });

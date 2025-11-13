@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { CiSearch } from "react-icons/ci";
 import { BiCategory } from "react-icons/bi";
 import { VscDiffIgnored } from "react-icons/vsc";
+import { Title } from "react-head";
 
 const AllCourses = () => {
   const [search, setSearch] = useState("");
@@ -62,6 +63,7 @@ const AllCourses = () => {
   const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
   return (
     <div className="p-5">
+      <Title>Courses | TURITOR</Title>;
       <div data-aos="fade-down" className="text-center  mb-8 max-w-2xl mx-auto">
         <h2 className="text-4xl font-bold mb-3">
           Explore <span className="text-secondary">All Courses</span>
@@ -129,7 +131,6 @@ const AllCourses = () => {
           </select>
         </div>
       </div>
-
       {/* Card Display */}
       <div className="items-stretch">
         {Array.isArray(filteredCourses) && filteredCourses.length > 0 ? (
