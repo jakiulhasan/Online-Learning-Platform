@@ -14,6 +14,7 @@ import AddCourse from "../components/AddCourses";
 import MyCourses from "../components/MyCourses";
 import Dashboard from "../components/DashBoard";
 import MyEnrollment from "../components/MyEnrollment";
+import Error404 from "../components/Error404";
 
 const Routes = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const Routes = createBrowserRouter([
       {
         index: true,
         element: <HomeLayout></HomeLayout>,
+      },
+      {
+        path: "/*",
+        element: <Error404></Error404>,
       },
       {
         path: "/dashboard",

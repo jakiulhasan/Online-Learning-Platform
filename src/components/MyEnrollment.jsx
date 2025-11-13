@@ -63,7 +63,7 @@ const MyEnrollment = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.03 }}
-                className="bg-white  shadow-md rounded-2xl p-5 flex flex-col justify-between"
+                className=" bg-base-100 shadow-md rounded-2xl p-5 flex flex-col justify-between"
               >
                 <div>
                   <img
