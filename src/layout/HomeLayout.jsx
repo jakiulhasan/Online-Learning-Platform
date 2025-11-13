@@ -8,7 +8,8 @@ import { Title } from "react-head";
 const HomeLayout = () => {
   return (
     <div className="p-5">
-      <Title>Home | TURITOR</Title>;<Banner></Banner>
+      <Title>Home | TURITOR</Title>
+      <Banner></Banner>
       <PopularCourses></PopularCourses>
       <TopInstructor></TopInstructor>
       <AboutSection></AboutSection>
