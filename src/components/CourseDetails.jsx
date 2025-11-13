@@ -10,11 +10,48 @@ import { FaGlobe } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 import ReviewChart from "./ReviewChart";
+import Swal from "sweetalert2";
 
 const CourseDetails = () => {
-  const { loading } = use(AuthContext);
+  const { user, loading } = use(AuthContext);
   const [sp_course, setSp_course] = useState([]);
   const { id } = useParams();
+
+  const handleEnrollCourse = (id) => {
+    const enrolledCourse = { id: id, email: user.email };
+    console.log(enrolledCourse);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You Will be charged Automatically !",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Enroll Now!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axiosInstance.post(
+            "/add-enrollment-course",
+            enrolledCourse
+          );
+          console.log(res);
+          if (res.data.insertedId) {
+            Swal.fire("Enrolled!", "This course has Enrolled.", "success");
+          }
+        } catch (err) {
+          console.error(err);
+          Swal.fire("Error", "Failed to delete course.", "error");
+        }
+
+        Swal.fire({
+          title: "Enrolled !",
+          text: "Your Course Enrolled Successfully",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   // console.log(id);
 
@@ -107,7 +144,12 @@ const CourseDetails = () => {
             )}
           </div>
 
-          <button className="btn btn-primary w-fit mt-4 px-6 py-2 rounded-lg">
+          <button
+            onClick={() => {
+              handleEnrollCourse(sp_course.id);
+            }}
+            className="btn btn-primary w-fit mt-4 px-6 py-2 rounded-lg"
+          >
             Enroll Now
           </button>
         </div>
