@@ -1,16 +1,86 @@
-# React + Vite
+# 🎓 Online Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **Online Learning Platform** built with **React (v19)**, **Vite**, and **Tailwind CSS**, designed for learners and instructors to create, manage, and enroll in online courses.  
+It includes features like user authentication (Firebase), course management, enrollment tracking, ratings, reviews, and progress visualization — all wrapped in a sleek, responsive UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+### 🌐 Frontend
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19 + Vite** — fast, modern, and lightweight.
+- **Tailwind CSS + DaisyUI** — fully responsive UI with customizable themes.
+- **Framer Motion** — smooth animations and transitions.
+- **Lucide React & React Icons** — clean and consistent iconography.
+- **Recharts** — interactive data visualization (student progress, stats).
+- **AOS (Animate on Scroll)** — modern scroll-based animations.
+- **React Toastify** — user-friendly toast notifications.
+- **SweetAlert2** — elegant alerts and confirmation dialogs.
 
-## Expanding the ESLint configuration
+### 🔥 Backend / API Integration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Axios** — for making API requests.
+- **Firebase Authentication** — secure login, signup, and user management.
+- **MongoDB (via Express server)** — course and user data storage (optional integration).
+
+---
+
+## 📁 Project Structure
+
+online-learning-platform/
+├── public/
+├── src/
+│ ├── assets/ # Images and icons
+│ ├── components/ # Reusable UI components
+│ ├── context/ # Context providers (Auth, Axios, etc.)
+│ ├── pages/ # Page components (Courses, Dashboard, etc.)
+│ ├── App.jsx # Root component with routing
+│ ├── main.jsx # Entry point
+│ └── index.css # TailwindCSS and global styles
+├── .eslintrc.json # ESLint config
+├── package.json
+├── tailwind.config.js
+├── postcss.config.js
+└── README.md
+
+---
+
+## ⚙️ Tech Stack
+
+| Category             | Technologies Used                                 |
+| -------------------- | ------------------------------------------------- |
+| **Frontend**         | React 19, React Router 7, Tailwind CSS 4, DaisyUI |
+| **Animations**       | Framer Motion, AOS                                |
+| **State Management** | React Context API                                 |
+| **API & Data**       | Axios, Firebase                                   |
+| **Charts**           | Recharts                                          |
+| **UI Enhancements**  | SweetAlert2, React Toastify                       |
+| **Build Tool**       | Vite                                              |
+| **Linting**          | ESLint 9                                          |
+
+---
+
+## 🧩 Setup & Installation
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/online-learning-platform.git
+cd online-learning-platform
+
+2️⃣ Install Dependencies
+npm install
+
+3️⃣ Run the Development Server
+npm run dev
+
+Visit the app at:
+👉 http://localhost:5173
+
+4️⃣ Build for Production
+npm run build
+
+5️⃣ Preview Production Build
+npm run preview
+```
