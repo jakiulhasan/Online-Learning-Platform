@@ -13,7 +13,6 @@ const MainLayout = () => {
     return <Loading></Loading>;
   }
   return (
-    
     <div>
       <Navbar></Navbar>
       <Outlet></Outlet>

@@ -27,8 +27,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav data-aos="fade-down" className="z-50 bg-base-100 relative shadow-md">
-      <nav className="text-base-content px-6 py-3 flex items-center justify-between  max-w-6xl mx-auto">
+    <nav
+      data-aos="fade-down"
+      className="z-50 bg-base-100 sticky top-0 shadow-md"
+    >
+      <nav className="text-base-content px-4 md:px-0 py-3 flex items-center justify-between  max-w-6xl mx-auto">
         <div className="flex items-center gap-3">
           <img src={logo} alt="Logo" className="h-8" />
         </div>
