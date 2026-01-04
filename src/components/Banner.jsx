@@ -6,6 +6,7 @@ import {
 } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import Lottie from "lottie-react";
+import { Link } from "react-router";
 
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -148,9 +149,12 @@ const Banner = () => {
                   {slides[currentSlide].description}
                 </p>
                 <div className="w-fit">
-                  <button className="btn btn-primary flex items-center gap-2 whitespace-nowrap">
+                  <Link
+                    to="/courses"
+                    className="btn btn-primary flex items-center gap-2 whitespace-nowrap"
+                  >
                     {slides[currentSlide].cta} <FaArrowRightLong />
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
 
