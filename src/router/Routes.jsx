@@ -15,7 +15,6 @@ import CourseDetails from "../components/CourseDetails";
 import PrivateRoute from "../context/PrivateRoute";
 import AddCourse from "../components/AddCourses";
 import MyCourses from "../components/MyCourses";
-import Dashboard from "../components/DashBoard";
 import MyEnrollment from "../components/MyEnrollment";
 import Error404 from "../components/Error404";
 import UpdateCourse from "../components/UpdateCourse";
@@ -23,6 +22,7 @@ import UserProfile from "../components/UserProfile";
 import UserSettings from "../components/UserSettings";
 import MyCertificates from "../components/MyCertificates";
 import Pricing from "../components/Pricing";
+import Dashboard from "../components/Dashboard";
 
 const Routes = createBrowserRouter([
   {
@@ -32,15 +32,6 @@ const Routes = createBrowserRouter([
       {
         index: true,
         element: <HomeLayout></HomeLayout>,
-      },
-
-      {
-        path: "/dashboard",
-        element: (
-          <PrivateRoute>
-            <Dashboard></Dashboard>
-          </PrivateRoute>
-        ),
       },
       {
         path: "/user-profile",
@@ -149,6 +140,14 @@ const Routes = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
   },
   {
     path: "/*",
