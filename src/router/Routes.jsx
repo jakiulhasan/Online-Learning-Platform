@@ -6,6 +6,9 @@ import AuthLayout from "../layout/AuthLayout";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import ForgetPassword from "../components/ForgetPassword";
+import About from "../components/About";
+import ContactUs from "../components/ContactUs";
+import ContactSupport from "../components/ContactSupport";
 import AuthChecker from "../context/AuthChecker";
 import CoursesLayout from "../layout/CoursesLayout";
 import CourseDetails from "../components/CourseDetails";
@@ -66,6 +69,18 @@ const Routes = createBrowserRouter([
       {
         path: "/pricing",
         element: <Pricing></Pricing>,
+      },
+      {
+        path: "/about",
+        element: <About></About>,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs></ContactUs>,
+      },
+      {
+        path: "/support",
+        element: <ContactSupport></ContactSupport>,
       },
       {
         path: "/courses",

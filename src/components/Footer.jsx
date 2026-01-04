@@ -38,22 +38,22 @@ const Footer = () => {
             </h2>
             <ul className="space-y-2 text-base opacity-90">
               <li>
-                <Link to="/" className="hover:text-primary transition">
+                <Link to="/courses" className="hover:text-primary transition">
                   • All Courses
                 </Link>
               </li>
               <li>
-                <Link to="/" className="hover:text-primary transition">
+                <Link to="/about" className="hover:text-primary transition">
                   • About
                 </Link>
               </li>
               <li>
-                <Link to="/" className="hover:text-primary transition">
+                <Link to="/contact" className="hover:text-primary transition">
                   • Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/" className="hover:text-primary transition">
+                <Link to="/support" className="hover:text-primary transition">
                   • Contact Support
                 </Link>
               </li>
@@ -65,18 +65,38 @@ const Footer = () => {
               Get in Touch
             </h2>
             <div className="flex gap-5 text-3xl">
-              <Link className="hover:text-primary transition">
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition"
+              >
                 <FaFacebook />
-              </Link>
-              <Link className="hover:text-primary transition">
+              </a>
+              <a
+                href="https://www.x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition"
+              >
                 <FaXTwitter />
-              </Link>
-              <Link className="hover:text-primary transition">
+              </a>
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition"
+              >
                 <FaInstagram />
-              </Link>
-              <Link className="hover:text-primary transition">
+              </a>
+              <a
+                href="https://www.youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition"
+              >
                 <FaYoutube />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
