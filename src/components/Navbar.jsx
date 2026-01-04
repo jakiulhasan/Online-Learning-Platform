@@ -205,14 +205,6 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/courses/add-course"
-                    className="flex items-center gap-2"
-                  >
-                    <span>Add Course</span>
-                  </Link>
-                </li>
-                <li>
                   <Link to="/dashboard" className="flex items-center gap-2">
                     <span>Dashboard</span>
                   </Link>

@@ -23,6 +23,7 @@ import UserSettings from "../components/UserSettings";
 import MyCertificates from "../components/MyCertificates";
 import Pricing from "../components/Pricing";
 import Dashboard from "../components/Dashboard";
+import DashboardHome from "../components/DashboardHome";
 
 const Routes = createBrowserRouter([
   {
@@ -148,6 +149,24 @@ const Routes = createBrowserRouter([
         <Dashboard></Dashboard>
       </PrivateRoute>
     ),
+    children: [
+      {
+        index: true,
+        Component: DashboardHome,
+      },
+      {
+        path: "/dashboard/mycourses",
+        Component: MyCourses,
+      },
+      {
+        path: "/dashboard/certificates",
+        Component: MyCertificates,
+      },
+      {
+        path: "/dashboard/add-courses",
+        Component: AddCourse,
+      },
+    ],
   },
   {
     path: "/*",
