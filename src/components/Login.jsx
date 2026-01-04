@@ -1,7 +1,7 @@
-import React, { use, useState } from "react";
+import React, { use, useState, useRef } from "react"; // Added useRef
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, Navigate, useNavigate, useLocation } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router"; // Cleaned up unused Navigate
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { FormInput, SuccessMessage } from "./FormComponents";
@@ -11,6 +11,8 @@ import { validateEmail, validatePassword } from "../utils/formValidation";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const formRef = useRef(null); // Reference to the form element
+
   const { userSignIn, googleSignIn } = use(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,8 +20,28 @@ const Login = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errors, setErrors] = useState({});
 
+  // --- New Auto-fill Functionality ---
+  const handleAutoFill = (role) => {
+    const email =
+      role === "admin"
+        ? import.meta.env.VITE_DEMO_ADMIN
+        : import.meta.env.VITE_DEMO_USER;
+
+    const password =
+      role === "admin"
+        ? import.meta.env.VITE_DEMO_ADMIN_PASSWORD
+        : import.meta.env.VITE_DEMO_USER_PASSWORD;
+
+    if (formRef.current) {
+      formRef.current.email.value = email;
+      formRef.current.password.value = password;
+      // Clear errors when auto-filling to provide a clean slate
+      setErrors({});
+    }
+  };
+
   const handleForgetPassword = (e) => {
-    const email = e.target.parentNode.parentNode.parentNode.email.value;
+    const email = formRef.current.email.value; // Access via ref for reliability
     if (!email) {
       toast.error("Please enter your email");
       return;
@@ -33,7 +55,6 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    // Validation
     const newErrors = {};
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -52,8 +73,6 @@ const Login = () => {
 
     userSignIn(email, password)
       .then((result) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
         setSuccessMessage("Login successful! Redirecting...");
         toast.success("Login Successful");
         form.reset();
@@ -62,15 +81,11 @@ const Login = () => {
         }, 500);
       })
       .catch((error) => {
-        console.log("error:", error.message);
-        const errorMessage =
-          error.message === "Firebase: Error (auth/user-not-found)."
-            ? "No account found with this email"
-            : error.message === "Firebase: Error (auth/wrong-password)."
-            ? "Incorrect password"
-            : error.message === "Firebase: Error (auth/invalid-email)."
-            ? "Invalid email format"
-            : error.message;
+        const errorMessage = error.message.includes("user-not-found")
+          ? "No account found with this email"
+          : error.message.includes("wrong-password")
+          ? "Incorrect password"
+          : error.message;
         setErrors({ form: errorMessage });
         toast.error(errorMessage);
       })
@@ -80,17 +95,14 @@ const Login = () => {
   const signInWithGoogle = () => {
     setGoogleLoading(true);
     googleSignIn()
-      .then((result) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
-        setSuccessMessage("Google Sign-In successful! Redirecting...");
+      .then(() => {
+        setSuccessMessage("Google Sign-In successful!");
         toast.success("Google Sign-In Successful");
         setTimeout(() => {
           navigate(`${location.state ? location.state : "/"}`);
         }, 500);
       })
       .catch((error) => {
-        console.log("error:", error.message);
         setErrors({ form: error.message });
         toast.error(error.message);
       })
@@ -106,10 +118,35 @@ const Login = () => {
           className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"
         >
           <div className="card-body">
-            <form onSubmit={handleLogin}>
+            {/* Added ref to form */}
+            <form onSubmit={handleLogin} ref={formRef}>
               <h2 className="font-semibold text-2xl text-center mb-3">
                 Login to your account
               </h2>
+
+              {/* --- Demo Buttons Section --- */}
+              <div className="flex flex-col gap-2 mb-4">
+                <p className="text-xs text-center text-gray-500 uppercase font-bold">
+                  Quick Login (Demo)
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleAutoFill("user")}
+                    className="btn btn-xs btn-outline btn-info flex-1"
+                  >
+                    User
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAutoFill("admin")}
+                    className="btn btn-xs btn-outline btn-accent flex-1"
+                  >
+                    Admin
+                  </button>
+                </div>
+              </div>
+
               <hr className="border-base-300" />
               {successMessage && <SuccessMessage message={successMessage} />}
               {errors.form && (
@@ -119,7 +156,6 @@ const Login = () => {
               )}
 
               <fieldset className="fieldset mt-3 space-y-3">
-                {/* Email */}
                 <FormInput
                   label="Email"
                   name="email"
@@ -130,7 +166,6 @@ const Login = () => {
                   disabled={isLoading}
                 />
 
-                {/* Password */}
                 <div className="form-control w-full">
                   <label className="label">
                     <span className="label-text font-medium">
@@ -151,7 +186,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="z-50 absolute right-3 top-3 text-xl text-gray-500 hover:text-gray-700"
+                      className="z-10 absolute right-3 top-3 text-xl text-gray-500 hover:text-gray-700"
                       disabled={isLoading}
                     >
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -183,7 +218,6 @@ const Login = () => {
               </fieldset>
             </form>
 
-            {/* Google Sign-In */}
             <button
               onClick={signInWithGoogle}
               disabled={googleLoading || isLoading}
