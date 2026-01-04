@@ -16,6 +16,10 @@ import Dashboard from "../components/DashBoard";
 import MyEnrollment from "../components/MyEnrollment";
 import Error404 from "../components/Error404";
 import UpdateCourse from "../components/UpdateCourse";
+import UserProfile from "../components/UserProfile";
+import UserSettings from "../components/UserSettings";
+import MyCertificates from "../components/MyCertificates";
+import Pricing from "../components/Pricing";
 
 const Routes = createBrowserRouter([
   {
@@ -34,6 +38,34 @@ const Routes = createBrowserRouter([
             <Dashboard></Dashboard>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/user-profile",
+        element: (
+          <PrivateRoute>
+            <UserProfile></UserProfile>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/user-profile/settings",
+        element: (
+          <PrivateRoute>
+            <UserSettings></UserSettings>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/certificates",
+        element: (
+          <PrivateRoute>
+            <MyCertificates></MyCertificates>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/pricing",
+        element: <Pricing></Pricing>,
       },
       {
         path: "/courses",

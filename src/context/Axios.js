@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://online-learning-server-three.vercel.app",
+  baseURL: import.meta.env.VITE_BASEURL,
   headers: {
     "Content-Type": "application/json",
   },

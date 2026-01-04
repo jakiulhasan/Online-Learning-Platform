@@ -43,12 +43,26 @@ export default function Navbar() {
           <NavLink to="/courses" className="hover:text-primary cursor-pointer">
             COURSES
           </NavLink>
-          <NavLink
-            to="/dashboard"
-            className="hover:text-primary cursor-pointer"
-          >
-            DASHBOARD
+          <NavLink to="/pricing" className="hover:text-primary cursor-pointer">
+            PRICING
           </NavLink>
+
+          {user && (
+            <>
+              <NavLink
+                to="/certificates"
+                className="hover:text-primary cursor-pointer"
+              >
+                CERTIFICATES
+              </NavLink>
+              <NavLink
+                to="/user-profile"
+                className="hover:text-primary cursor-pointer"
+              >
+                PROFILE
+              </NavLink>
+            </>
+          )}
         </ul>
 
         <div className="hidden lg:flex items-center bg-base-200 rounded-md px-2 ml-4">
@@ -100,11 +114,35 @@ export default function Navbar() {
                   COURSES
                 </NavLink>
                 <NavLink
-                  to="/dashboard"
+                  to="/pricing"
                   className="hover:text-primary cursor-pointer"
                 >
-                  DASHBOARD
+                  PRICING
                 </NavLink>
+
+                {user && (
+                  <>
+                    <div className="divider my-1"></div>
+                    <NavLink
+                      to="/dashboard"
+                      className="hover:text-primary cursor-pointer"
+                    >
+                      DASHBOARD
+                    </NavLink>
+                    <NavLink
+                      to="/certificates"
+                      className="hover:text-primary cursor-pointer"
+                    >
+                      CERTIFICATES
+                    </NavLink>
+                    <NavLink
+                      to="/user-profile"
+                      className="hover:text-primary cursor-pointer"
+                    >
+                      PROFILE
+                    </NavLink>
+                  </>
+                )}
               </ul>
             </div>
           </div>
@@ -148,15 +186,35 @@ export default function Navbar() {
                   </Link>
                 </li>
 
+                <div className="divider my-1"></div>
+
                 <li>
-                  <Link to="/courses/add-course">Add Course</Link>
+                  <Link
+                    to="/courses/my-courses"
+                    className="flex items-center gap-2"
+                  >
+                    <span>My Courses</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/courses/my-courses">My Courses</Link>
+                  <Link
+                    to="/courses/my-enrolled-courses"
+                    className="flex items-center gap-2"
+                  >
+                    <span>My Enrolled Courses</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/courses/my-enrolled-courses">
-                    My Enrolled Courses
+                  <Link
+                    to="/courses/add-course"
+                    className="flex items-center gap-2"
+                  >
+                    <span>Add Course</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard" className="flex items-center gap-2">
+                    <span>Dashboard</span>
                   </Link>
                 </li>
 
@@ -173,9 +231,14 @@ export default function Navbar() {
               </ul>
             </div>
           ) : (
-            <Link to="/auth/login" className="btn btn-primary">
-              Login
-            </Link>
+            <>
+              <Link to="/auth/login" className="btn btn-primary">
+                Login
+              </Link>
+              <Link to="/auth/register" className="btn btn-secondary">
+                Sign Up
+              </Link>
+            </>
           )}
         </div>
       </nav>
