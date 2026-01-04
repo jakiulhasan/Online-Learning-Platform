@@ -63,7 +63,7 @@ const AllCourses = () => {
   const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
   return (
     <div className="p-5">
-      <Title>Courses | TURITOR</Title>;
+      <Title>Courses | TURITOR</Title>
       <div data-aos="fade-down" className="text-center  mb-8 max-w-2xl mx-auto">
         <h2 className="text-4xl font-bold mb-3">
           Explore <span className="text-secondary">All Courses</span>
@@ -134,7 +134,7 @@ const AllCourses = () => {
       {/* Card Display */}
       <div className="items-stretch">
         {Array.isArray(filteredCourses) && filteredCourses.length > 0 ? (
-          <div className="grid md:grid-cols-3 gap-8 mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mx-auto max-w-7xl">
             {filteredCourses.map((course, i) => (
               <div
                 data-aos="fade-up"

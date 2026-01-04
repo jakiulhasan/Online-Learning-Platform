@@ -133,7 +133,7 @@ const UpdateCourse = () => {
   return (
     <div className="max-w-3xl mx-auto bg-base-200 p-6 rounded-2xl shadow-lg mt-8">
       <FormLoader isLoading={isLoading} message="Updating course..." />
-      <Title>Update Courses | TURITOR</Title>;
+      <Title>Update Courses | TURITOR</Title>
       <h2 className="text-2xl font-bold text-center mb-4">
         Update <span className="text-secondary">Course</span>
       </h2>

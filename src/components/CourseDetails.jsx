@@ -92,7 +92,8 @@ const CourseDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto py-20 px-4">
-      <Title>Course Details | TURITOR</Title>;{/* Hero Section */}
+      <Title>Course Details | TURITOR</Title>
+      {/* Hero Section */}
       <div className="grid md:grid-cols-2 gap-8 mb-25">
         <div>
           <img

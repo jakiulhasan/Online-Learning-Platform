@@ -111,7 +111,8 @@ const MyCourses = () => {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      <Title>My Courses | TURITOR</Title>;{/* Header */}
+      <Title>My Courses | TURITOR</Title>
+      {/* Header */}
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-bold mb-2">
           Explore <span className="text-secondary">Your</span> Courses

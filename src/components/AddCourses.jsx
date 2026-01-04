@@ -141,7 +141,7 @@ const AddCourse = () => {
 
   return (
     <>
-      <Title>Add Courses | TURITOR</Title>;
+      <Title>Add Courses | TURITOR</Title>
       <FormLoader isLoading={isLoading} message="Adding course..." />
       <motion.div
         className="max-w-2xl mx-auto my-10 bg-base-100 shadow-xl rounded-2xl p-8 border border-gray-200"

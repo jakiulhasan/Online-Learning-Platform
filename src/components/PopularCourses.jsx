@@ -39,7 +39,7 @@ const PopularCourses = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch w-full">
           {Array.isArray(popularCourse) && popularCourse.length > 0 ? (
             popularCourse.map((course, i) => (
               <div

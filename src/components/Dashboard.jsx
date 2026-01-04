@@ -16,7 +16,7 @@ const Dashboard = () => {
   }
   return (
     <div>
-      <Title>Dashboard | TURITOR</Title>;
+      <Title>Dashboard | TURITOR</Title>
       <div className="relative p-8 mb-8 overflow-hidden shadow-lg">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative z-10 flex flex-col items-center text-center space-y-3">
