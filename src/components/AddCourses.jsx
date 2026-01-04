@@ -7,6 +7,19 @@ import { AuthContext } from "../context/AuthContext";
 import Loading from "./Loading";
 import { useNavigate } from "react-router";
 import { Title } from "react-head";
+import {
+  FormInput,
+  FormTextarea,
+  FormSelect,
+  FormCheckbox,
+  SuccessMessage,
+} from "./FormComponents";
+import { FormLoader, ButtonLoader } from "./FormLoader";
+import {
+  validateRequired,
+  validateNumber,
+  validateURL,
+} from "../utils/formValidation";
 
 const AddCourse = () => {
   const navigate = useNavigate();
@@ -22,6 +35,10 @@ const AddCourse = () => {
     isFeatured: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errors, setErrors] = useState({});
+
   // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -35,7 +52,37 @@ const AddCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) return; // safety check
+    if (!user) return;
+
+    // Validation
+    const newErrors = {};
+    const titleError = validateRequired(formData.title, "Title");
+    const imageError = validateURL(formData.imageUrl);
+    const priceError = validateNumber(formData.price, "Price", { min: 0 });
+    const durationError = validateNumber(formData.duration, "Duration", {
+      min: 0,
+    });
+    const categoryError = validateRequired(formData.category, "Category");
+    const descriptionError = validateRequired(
+      formData.description,
+      "Description"
+    );
+
+    if (titleError) newErrors.title = titleError;
+    if (imageError) newErrors.imageUrl = imageError;
+    if (priceError) newErrors.price = priceError;
+    if (durationError) newErrors.duration = durationError;
+    if (categoryError) newErrors.category = categoryError;
+    if (descriptionError) newErrors.description = descriptionError;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setIsLoading(true);
+    setErrors({});
+    setSuccessMessage("");
 
     const dataToSend = {
       ...formData,
@@ -47,6 +94,7 @@ const AddCourse = () => {
     try {
       const res = await axiosInstance.post("/add-course", dataToSend);
       if (res.data.insertedId) {
+        setSuccessMessage("Course added successfully! Redirecting...");
         Swal.fire({
           position: "center",
           icon: "success",
@@ -55,7 +103,10 @@ const AddCourse = () => {
           timer: 1500,
         });
 
-        navigate("/courses/my-courses");
+        setTimeout(() => {
+          navigate("/courses/my-courses");
+        }, 1500);
+
         // Reset form
         setFormData({
           title: "",
@@ -69,11 +120,15 @@ const AddCourse = () => {
       }
     } catch (error) {
       console.error(error);
+      const errorMsg = error.response?.data?.message || "Failed to add course";
+      setErrors({ form: errorMsg });
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Something went wrong!",
+        text: errorMsg,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,6 +142,7 @@ const AddCourse = () => {
   return (
     <>
       <Title>Add Courses | TURITOR</Title>;
+      <FormLoader isLoading={isLoading} message="Adding course..." />
       <motion.div
         className="max-w-2xl mx-auto my-10 bg-base-100 shadow-xl rounded-2xl p-8 border border-gray-200"
         initial={{ opacity: 0, y: 50 }}
@@ -97,6 +153,13 @@ const AddCourse = () => {
           Add New Course
         </h2>
 
+        {successMessage && <SuccessMessage message={successMessage} />}
+        {errors.form && (
+          <div className="alert alert-error gap-2 py-2 px-3 mb-4">
+            <span className="text-sm">{errors.form}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
           <motion.div
@@ -105,15 +168,16 @@ const AddCourse = () => {
             animate="animate"
             transition={{ delay: 0.1 }}
           >
-            <label className="block font-medium mb-1">Title</label>
-            <input
-              type="text"
+            <FormInput
+              label="Title"
               name="title"
+              type="text"
               value={formData.title}
               onChange={handleChange}
               placeholder="Enter course title"
-              className="input input-bordered w-full"
+              error={errors.title}
               required
+              disabled={isLoading}
             />
           </motion.div>
 
@@ -124,15 +188,16 @@ const AddCourse = () => {
             animate="animate"
             transition={{ delay: 0.2 }}
           >
-            <label className="block font-medium mb-1">Image URL</label>
-            <input
-              type="url"
+            <FormInput
+              label="Image URL"
               name="imageUrl"
+              type="url"
               value={formData.imageUrl}
               onChange={handleChange}
               placeholder="Enter image link"
-              className="input input-bordered w-full"
+              error={errors.imageUrl}
               required
+              disabled={isLoading}
             />
           </motion.div>
 
@@ -143,15 +208,16 @@ const AddCourse = () => {
             animate="animate"
             transition={{ delay: 0.3 }}
           >
-            <label className="block font-medium mb-1">Price (USD)</label>
-            <input
-              type="number"
+            <FormInput
+              label="Price (USD)"
               name="price"
+              type="number"
               value={formData.price}
               onChange={handleChange}
               placeholder="Enter price"
-              className="input input-bordered w-full"
+              error={errors.price}
               required
+              disabled={isLoading}
             />
           </motion.div>
 
@@ -162,16 +228,17 @@ const AddCourse = () => {
             animate="animate"
             transition={{ delay: 0.4 }}
           >
-            <label className="block font-medium mb-1">Duration (hours)</label>
-            <input
+            <FormInput
+              label="Duration (hours)"
+              name="duration"
               type="number"
               step="0.1"
-              name="duration"
               value={formData.duration}
               onChange={handleChange}
               placeholder="Enter duration"
-              className="input input-bordered w-full"
+              error={errors.duration}
               required
+              disabled={isLoading}
             />
           </motion.div>
 
@@ -182,20 +249,21 @@ const AddCourse = () => {
             animate="animate"
             transition={{ delay: 0.5 }}
           >
-            <label className="block font-medium mb-1">Category</label>
-            <select
+            <FormSelect
+              label="Category"
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="select select-bordered w-full"
+              error={errors.category}
+              options={[
+                { value: "Development", label: "Development" },
+                { value: "Design", label: "Design" },
+                { value: "Business", label: "Business" },
+                { value: "Marketing", label: "Marketing" },
+              ]}
               required
-            >
-              <option value="">Select Category</option>
-              <option value="Development">Development</option>
-              <option value="Design">Design</option>
-              <option value="Business">Business</option>
-              <option value="Marketing">Marketing</option>
-            </select>
+              disabled={isLoading}
+            />
           </motion.div>
 
           {/* Description */}
@@ -205,14 +273,16 @@ const AddCourse = () => {
             animate="animate"
             transition={{ delay: 0.6 }}
           >
-            <label className="block font-medium mb-1">Description</label>
-            <textarea
+            <FormTextarea
+              label="Description"
               name="description"
               value={formData.description}
               onChange={handleChange}
               placeholder="Write a short description"
-              className="textarea textarea-bordered w-full h-28"
+              error={errors.description}
+              rows={4}
               required
+              disabled={isLoading}
             />
           </motion.div>
 
@@ -223,14 +293,13 @@ const AddCourse = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
           >
-            <input
-              type="checkbox"
+            <FormCheckbox
+              label="Mark as Featured Course"
               name="isFeatured"
               checked={formData.isFeatured}
               onChange={handleChange}
-              className="checkbox checkbox-primary"
+              disabled={isLoading}
             />
-            <label className="font-medium">Mark as Featured Course</label>
           </motion.div>
 
           {/* Submit Button */}
@@ -241,9 +310,10 @@ const AddCourse = () => {
           >
             <button
               type="submit"
+              disabled={isLoading}
               className="btn btn-primary w-full mt-4 text-lg font-semibold"
             >
-              Add Course
+              {isLoading ? <ButtonLoader isLoading={true} /> : "Add Course"}
             </button>
           </motion.div>
         </form>
