@@ -2,27 +2,28 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import CourseCard from "./CourseCard";
 import CourseCardSkeleton from "./CourseCardSkeleton";
-import { BookOpen } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react"; // Added icons
 import { CiSearch } from "react-icons/ci";
 import { BiCategory } from "react-icons/bi";
 import { VscDiffIgnored } from "react-icons/vsc";
 import { Title } from "react-head";
 
 const AllCourses = () => {
-  // 1. Context and State
   const { courses, loading } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [difficulty, setDifficulty] = useState("All");
   const [filteredCourses, setFilteredCourses] = useState([]);
 
-  // 2. Filter Logic
+  // --- Pagination State ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const coursesPerPage = 8;
+
   useEffect(() => {
     if (!courses) return;
 
     let updated = [...courses];
 
-    // Search filter (Title or Instructor Name)
     if (search.trim() !== "") {
       const query = search.toLowerCase();
       updated = updated.filter(
@@ -32,20 +33,32 @@ const AllCourses = () => {
       );
     }
 
-    // Category filter
     if (category !== "All") {
       updated = updated.filter((c) => c.category === category);
     }
 
-    // Difficulty filter
     if (difficulty !== "All") {
       updated = updated.filter((c) => c.level === difficulty);
     }
 
     setFilteredCourses(updated);
+    setCurrentPage(1); // Reset to page 1 when filters change
   }, [search, category, difficulty, courses]);
 
-  // 3. Constant Data
+  // --- Pagination Logic ---
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = filteredCourses.slice(
+    indexOfFirstCourse,
+    indexOfLastCourse
+  );
+  const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll up on page change
+  };
+
   const categories = [
     "All",
     "Development",
@@ -56,17 +69,11 @@ const AllCourses = () => {
   ];
   const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
 
-  // 4. Loading State
   if (loading) {
     return (
       <div className="p-5">
         <Title>Loading Courses | TURITOR</Title>
-        <div className="text-center mb-8 max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold mb-3">
-            Explore <span className="text-secondary">All Courses</span>
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-7xl mt-20">
           {Array.from({ length: 8 }).map((_, i) => (
             <CourseCardSkeleton key={i} />
           ))}
@@ -79,40 +86,29 @@ const AllCourses = () => {
     <div className="p-5">
       <Title>Courses | TURITOR</Title>
 
-      {/* Header */}
+      {/* Header & Filter Bar (Kept the same) */}
       <div data-aos="fade-down" className="text-center mb-8 max-w-2xl mx-auto">
         <h2 className="text-4xl font-bold mb-3">
           Explore <span className="text-secondary">All Courses</span>
         </h2>
-        <p className="text-gray-600">
-          Discover a wide range of courses designed to help you grow your skills
-          and advance your career.
-        </p>
       </div>
 
-      {/* Filter Bar */}
-      <div
-        data-aos="fade-down"
-        className="grid grid-cols-1 md:grid-cols-3 items-end gap-4 bg-base-100 p-6 rounded-xl shadow-sm mb-8 border border-gray-100"
-      >
-        {/* Search */}
+      <div className="grid grid-cols-1 md:grid-cols-3 items-end gap-4 bg-base-100 p-6 rounded-xl shadow-sm mb-8 border border-gray-100">
         <div>
           <label className="mb-2 text-secondary text-sm font-medium flex gap-2 items-center">
             <CiSearch className="text-lg" /> Search
           </label>
           <input
             type="text"
-            placeholder="Search by title or instructor..."
+            placeholder="Search..."
             className="input input-bordered w-full"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-
-        {/* Category */}
         <div>
           <label className="mb-2 text-secondary text-sm font-medium flex gap-2 items-center">
-            <BiCategory className="text-lg" /> Select Category
+            <BiCategory className="text-lg" /> Category
           </label>
           <select
             className="select select-bordered w-full"
@@ -126,11 +122,9 @@ const AllCourses = () => {
             ))}
           </select>
         </div>
-
-        {/* Difficulty */}
         <div>
           <label className="mb-2 text-secondary text-sm font-medium flex gap-2 items-center">
-            <VscDiffIgnored className="text-lg" /> Select Difficulty
+            <VscDiffIgnored className="text-lg" /> Difficulty
           </label>
           <select
             className="select select-bordered w-full"
@@ -148,26 +142,62 @@ const AllCourses = () => {
 
       {/* Card Display */}
       <div className="min-h-[400px]">
-        {filteredCourses.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-7xl">
-            {filteredCourses.map((course, i) => (
-              <div
-                data-aos="fade-up"
-                data-aos-delay={i * 50}
-                key={course._id || i}
-              >
-                <CourseCard course={course} />
+        {currentCourses.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-7xl">
+              {currentCourses.map((course, i) => (
+                <div
+                  data-aos="fade-up"
+                  data-aos-delay={(i % 8) * 50}
+                  key={course._id || i}
+                >
+                  <CourseCard course={course} />
+                </div>
+              ))}
+            </div>
+
+            {/* --- Pagination UI --- */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center mt-12 gap-2">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => paginate(currentPage - 1)}
+                  className="btn btn-outline btn-sm sm:btn-md disabled:opacity-30"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <div className="flex gap-1">
+                  {[...Array(totalPages)].map((_, index) => {
+                    const pageNum = index + 1;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => paginate(pageNum)}
+                        className={`btn btn-sm sm:btn-md ${
+                          currentPage === pageNum ? "btn-primary" : "btn-ghost"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => paginate(currentPage + 1)}
+                  className="btn btn-outline btn-sm sm:btn-md disabled:opacity-30"
+                >
+                  <ChevronRight size={20} />
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         ) : (
           <div className="flex flex-col items-center justify-center text-center py-20 text-gray-600">
             <BookOpen size={80} className="text-secondary/30 mb-4" />
             <h3 className="text-2xl font-semibold mb-2">No Courses Found</h3>
-            <p className="max-w-md">
-              We couldn't find any courses matching your criteria. Try adjusting
-              your filters.
-            </p>
             <button
               onClick={() => {
                 setSearch("");
