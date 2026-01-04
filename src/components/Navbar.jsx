@@ -205,9 +205,18 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/dashboard" className="flex items-center gap-2">
-                    <span>Dashboard</span>
-                  </Link>
+                  {user.email == "demoadmin@turitor.com" ? (
+                    <Link
+                      to="/dashboard/admin"
+                      className="flex items-center gap-2"
+                    >
+                      <span>Dashboard</span>
+                    </Link>
+                  ) : (
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                      <span>Dashboard</span>
+                    </Link>
+                  )}
                 </li>
 
                 <div className="divider my-1"></div>

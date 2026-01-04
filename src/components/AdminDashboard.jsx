@@ -1,5 +1,5 @@
-import React, { use } from "react";
-import { Link, NavLink } from "react-router";
+import React, { use, useState } from "react";
+import { Link, NavLink, Outlet } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { RxAvatar } from "react-icons/rx";
 import {
@@ -9,79 +9,133 @@ import {
   BarChart3,
   Home,
   LogOut,
+  Menu,
+  X,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { Title } from "react-head";
 
 const AdminDashboard = () => {
   const { user, signOutUser } = use(AuthContext);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
-    <div className="flex h-screen bg-base-300">
+    <div className="flex h-screen bg-base-300 overflow-hidden relative">
       <Title>Admin Panel | TURITOR</Title>
 
+      {/* --- Sidebar Overlay --- */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
+          onClick={closeSidebar}
+        ></div>
+      )}
+
       {/* --- Admin Sidebar --- */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col">
-        <div className="p-6 text-2xl font-bold text-primary border-b border-slate-800">
-          TURITOR{" "}
-          <span className="text-xs block text-white opacity-50 font-normal">
-            ADMIN CONSOLE
-          </span>
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-6 text-2xl font-bold text-primary border-b border-slate-800 flex justify-between items-center">
+          <div>
+            TURITOR{" "}
+            <span className="text-xs block text-white opacity-50 font-normal">
+              ADMIN CONSOLE
+            </span>
+          </div>
+          <button className="lg:hidden" onClick={closeSidebar}>
+            <X size={24} />
+          </button>
         </div>
+
         <nav className="flex-1 p-4 space-y-2">
+          {/* Note the use of "end" on the Overview link to prevent it from matching sub-routes incorrectly */}
           <NavLink
-            to="/dashboard"
-            className="flex items-center gap-3 p-3 rounded-lg bg-slate-800 text-primary"
+            to="/dashboard/admin"
+            end
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-3 rounded-lg transition ${
+                isActive
+                  ? "bg-primary text-slate-900 font-bold"
+                  : "hover:bg-slate-800"
+              }`
+            }
           >
             <BarChart3 size={20} /> Overview
           </NavLink>
           <NavLink
-            to="/courses/add-course"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition"
-          >
-            <FolderPlus size={20} /> Add New Course
-          </NavLink>
-          <NavLink
-            to="/admin/manage-users"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition"
+            to="/dashboard/admin/manage-user"
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-3 rounded-lg transition ${
+                isActive
+                  ? "bg-primary text-slate-900 font-bold"
+                  : "hover:bg-slate-800"
+              }`
+            }
           >
             <Users size={20} /> Manage Users
           </NavLink>
           <NavLink
-            to="/admin/settings"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition"
+            to="/dashboard/admin/add-courses"
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-3 rounded-lg transition ${
+                isActive
+                  ? "bg-primary text-slate-900 font-bold"
+                  : "hover:bg-slate-800"
+              }`
+            }
+          >
+            <FolderPlus size={20} /> Add Course
+          </NavLink>
+          <NavLink
+            to="/dashboard/admin/site-setting"
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-3 rounded-lg transition ${
+                isActive
+                  ? "bg-primary text-slate-900 font-bold"
+                  : "hover:bg-slate-800"
+              }`
+            }
           >
             <Settings size={20} /> Site Settings
           </NavLink>
         </nav>
+
         <div className="p-4 border-t border-slate-800">
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-sm text-gray-400 hover:text-white"
+          <button
+            onClick={() => signOutUser()}
+            className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition w-full"
           >
-            <Home size={16} /> Back to Public Site
-          </Link>
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       </aside>
 
+      {/* --- Content Area --- */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* --- Top Navbar --- */}
-        <header className="h-16 bg-base-100 shadow-sm flex items-center justify-between px-8 border-b border-base-300">
-          <div className="badge badge-primary font-bold p-3 uppercase">
+        <header className="h-16 bg-base-100 shadow-sm flex items-center justify-between px-4 lg:px-8 shrink-0">
+          <button
+            className="lg:hidden btn btn-ghost btn-sm"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu size={24} />
+          </button>
+          <div className="badge badge-primary font-bold p-3 uppercase hidden sm:flex">
             Administrative Access
           </div>
-
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <div className="flex items-center gap-3 ml-2 border-l pl-4">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs font-bold leading-none">Admin User</p>
-                <p className="text-[10px] text-gray-500">{user?.email}</p>
-              </div>
               {user?.photoURL ? (
                 <img
                   src={user.photoURL}
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 rounded-full border border-primary"
                   alt="Admin"
                 />
               ) : (
@@ -91,49 +145,9 @@ const AdminDashboard = () => {
           </div>
         </header>
 
-        {/* --- Admin Stats & Content --- */}
-        <main className="flex-1 overflow-y-auto p-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="stats shadow bg-base-100">
-              <div className="stat">
-                <div className="stat-title">Total Sales</div>
-                <div className="stat-value text-primary">$24.5k</div>
-              </div>
-            </div>
-            <div className="stats shadow bg-base-100">
-              <div className="stat">
-                <div className="stat-title">New Students</div>
-                <div className="stat-value">150</div>
-              </div>
-            </div>
-            <div className="stats shadow bg-base-100">
-              <div className="stat">
-                <div className="stat-title">Course Requests</div>
-                <div className="stat-value text-secondary">12</div>
-              </div>
-            </div>
-            <div className="stats shadow bg-base-100">
-              <div className="stat">
-                <div className="stat-title">Server Status</div>
-                <div className="stat-value text-success text-2xl">Healthy</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-xl p-6 border border-base-300">
-            <h2 className="text-xl font-bold mb-4">Admin Quick Actions</h2>
-            <div className="flex gap-4">
-              <Link to="/courses/add-course" className="btn btn-primary">
-                Create Course
-              </Link>
-              <button
-                className="btn btn-outline btn-error"
-                onClick={() => signOutUser()}
-              >
-                Emergency Logout
-              </button>
-            </div>
-          </div>
+        <main className="flex-1 overflow-y-auto p-4 lg:p-8">
+          {/* Dynamic components render here */}
+          <Outlet />
         </main>
       </div>
     </div>

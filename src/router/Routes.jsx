@@ -24,6 +24,9 @@ import MyCertificates from "../components/MyCertificates";
 import Pricing from "../components/Pricing";
 import Dashboard from "../components/Dashboard";
 import DashboardHome from "../components/DashboardHome";
+import AdminHome from "../components/AdminHome";
+import ManageUsers from "../components/ManageUsers";
+import AdminSettings from "../components/AdminSettings";
 
 const Routes = createBrowserRouter([
   {
@@ -165,6 +168,22 @@ const Routes = createBrowserRouter([
       {
         path: "/dashboard/add-courses",
         Component: AddCourse,
+      },
+      {
+        path: "/dashboard/admin",
+        Component: AdminHome,
+      },
+      {
+        path: "/dashboard/admin/manage-user",
+        Component: ManageUsers,
+      },
+      {
+        path: "/dashboard/admin/add-courses",
+        Component: AddCourse,
+      },
+      {
+        path: "/dashboard/admin/site-setting",
+        Component: AdminSettings,
       },
     ],
   },
