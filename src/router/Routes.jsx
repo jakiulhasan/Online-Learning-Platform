@@ -120,11 +120,7 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/courses/:id",
-        element: (
-          <PrivateRoute>
-            <CourseDetails></CourseDetails>
-          </PrivateRoute>
-        ),
+        element: <CourseDetails></CourseDetails>,
       },
       {
         path: "/auth",

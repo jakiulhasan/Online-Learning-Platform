@@ -1,37 +1,34 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import Loading from "./Loading";
-import { IoIosPeople, IoMdTime } from "react-icons/io";
-import { BookOpen, Star } from "lucide-react";
-import { Link } from "react-router";
+import CourseCard from "./CourseCard";
+import CourseCardSkeleton from "./CourseCardSkeleton";
+import { BookOpen } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { BiCategory } from "react-icons/bi";
 import { VscDiffIgnored } from "react-icons/vsc";
 import { Title } from "react-head";
 
 const AllCourses = () => {
+  // 1. Context and State
+  const { courses, loading } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [difficulty, setDifficulty] = useState("All");
   const [filteredCourses, setFilteredCourses] = useState([]);
-  const { courses, loading } = use(AuthContext);
 
+  // 2. Filter Logic
   useEffect(() => {
-    if (courses && courses.length > 0) {
-      const allCourses = [...courses];
-      setFilteredCourses(allCourses);
-    }
-  }, [courses]);
+    if (!courses) return;
 
-  // Filter logic
-  useEffect(() => {
-    let updated = courses;
-    // Search filter
+    let updated = [...courses];
+
+    // Search filter (Title or Instructor Name)
     if (search.trim() !== "") {
+      const query = search.toLowerCase();
       updated = updated.filter(
         (c) =>
-          c.title.toLowerCase().includes(search.toLowerCase()) ||
-          c.instructor.name.toLowerCase().includes(search.toLowerCase())
+          c.title?.toLowerCase().includes(query) ||
+          c.instructor?.name?.toLowerCase().includes(query)
       );
     }
 
@@ -48,10 +45,7 @@ const AllCourses = () => {
     setFilteredCourses(updated);
   }, [search, category, difficulty, courses]);
 
-  if (loading) {
-    return <Loading></Loading>;
-  }
-
+  // 3. Constant Data
   const categories = [
     "All",
     "Development",
@@ -61,30 +55,50 @@ const AllCourses = () => {
     "Business",
   ];
   const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
+
+  // 4. Loading State
+  if (loading) {
+    return (
+      <div className="p-5">
+        <Title>Loading Courses | TURITOR</Title>
+        <div className="text-center mb-8 max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold mb-3">
+            Explore <span className="text-secondary">All Courses</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-7xl">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <CourseCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-5">
       <Title>Courses | TURITOR</Title>
-      <div data-aos="fade-down" className="text-center  mb-8 max-w-2xl mx-auto">
+
+      {/* Header */}
+      <div data-aos="fade-down" className="text-center mb-8 max-w-2xl mx-auto">
         <h2 className="text-4xl font-bold mb-3">
           Explore <span className="text-secondary">All Courses</span>
         </h2>
         <p className="text-gray-600">
           Discover a wide range of courses designed to help you grow your skills
-          and advance your career. Filter by category, difficulty, or simply
-          search for the topic you’re passionate about.
+          and advance your career.
         </p>
       </div>
+
       {/* Filter Bar */}
       <div
         data-aos="fade-down"
-        className="md:grid md:grid-cols-3 space-y-2 items-center justify-between gap-4 bg-base-100 p-4 rounded-xl shadow-sm mb-8"
+        className="grid grid-cols-1 md:grid-cols-3 items-end gap-4 bg-base-100 p-6 rounded-xl shadow-sm mb-8 border border-gray-100"
       >
         {/* Search */}
         <div>
-          <label className="mb-2 text-secondary text-[14px] flex gap-2 items-center">
-            {" "}
-            <CiSearch />
-            Search
+          <label className="mb-2 text-secondary text-sm font-medium flex gap-2 items-center">
+            <CiSearch className="text-lg" /> Search
           </label>
           <input
             type="text"
@@ -97,110 +111,73 @@ const AllCourses = () => {
 
         {/* Category */}
         <div>
-          <label className="mb-2 text-secondary text-[14px] flex gap-2 items-center">
-            {" "}
-            <BiCategory />
-            Select Category
+          <label className="mb-2 text-secondary text-sm font-medium flex gap-2 items-center">
+            <BiCategory className="text-lg" /> Select Category
           </label>
           <select
             className="select select-bordered w-full"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            {categories.map((cat, i) => (
-              <option key={i}>{cat}</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
 
         {/* Difficulty */}
         <div>
-          <label className="mb-2 text-secondary text-[14px] flex gap-2 items-center">
-            {" "}
-            <VscDiffIgnored />
-            Select Difficulty
+          <label className="mb-2 text-secondary text-sm font-medium flex gap-2 items-center">
+            <VscDiffIgnored className="text-lg" /> Select Difficulty
           </label>
           <select
             className="select select-bordered w-full"
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
           >
-            {difficulties.map((lvl, i) => (
-              <option key={i}>{lvl}</option>
+            {difficulties.map((lvl) => (
+              <option key={lvl} value={lvl}>
+                {lvl}
+              </option>
             ))}
           </select>
         </div>
       </div>
+
       {/* Card Display */}
-      <div className="items-stretch">
-        {Array.isArray(filteredCourses) && filteredCourses.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mx-auto max-w-7xl">
+      <div className="min-h-[400px]">
+        {filteredCourses.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-7xl">
             {filteredCourses.map((course, i) => (
               <div
                 data-aos="fade-up"
-                data-aos-delay={i * 150}
-                key={course._id}
-                className="overflow-hidden rounded-2xl shadow-md hover:shadow-xl transform transition-transform duration-500 ease-in-out hover:scale-105"
+                data-aos-delay={i * 50}
+                key={course._id || i}
               >
-                <img
-                  src={course.thumbnail_url}
-                  alt=""
-                  className="w-full h-52 object-cover"
-                />
-                <div className="p-6 flex flex-col bg-base-200">
-                  <div className="flex justify-between items-center mb-3 text-sm text-gray-500">
-                    <span className="flex items-center gap-2">
-                      <IoMdTime className="text-secondary text-xl" />
-                      {course.duration_hours} Hours
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <IoIosPeople className="text-secondary text-xl" />
-                      {course.students_enrolled} Students Enrolled
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 line-clamp-2 min-h-14">
-                    {course.title}
-                  </h3>
-                  <div className="flex items-center mb-3 text-yellow-500">
-                    {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} size={16} fill="currentColor" />
-                    ))}
-                    <span className="text-gray-600 ml-1 text-sm">
-                      ({course.rating.average} Rating)
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={course.instructor.avatar_url}
-                      className="w-12 h-12 object-cover rounded-full"
-                      alt=""
-                    />
-                    <div>
-                      <h1 className="text-xl font-bold">
-                        {course.instructor.title}
-                      </h1>
-                      <p className="text-xl">{course.instructor.name}</p>
-                    </div>
-                  </div>
-                  <Link
-                    to={`/courses/${course._id}`}
-                    className="w-full btn btn-primary py-2"
-                  >
-                    View More Detail →
-                  </Link>
-                </div>
+                <CourseCard course={course} />
               </div>
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center text-center py-16 text-gray-600">
-            <BookOpen size={80} className="text-secondary mb-4" />
+          <div className="flex flex-col items-center justify-center text-center py-20 text-gray-600">
+            <BookOpen size={80} className="text-secondary/30 mb-4" />
             <h3 className="text-2xl font-semibold mb-2">No Courses Found</h3>
             <p className="max-w-md">
-              We couldn’t find any courses that match your filters or search
-              criteria. Try adjusting your filters or searching with a different
-              keyword.
+              We couldn't find any courses matching your criteria. Try adjusting
+              your filters.
             </p>
+            <button
+              onClick={() => {
+                setSearch("");
+                setCategory("All");
+                setDifficulty("All");
+              }}
+              className="mt-4 text-primary underline"
+            >
+              Reset all filters
+            </button>
           </div>
         )}
       </div>

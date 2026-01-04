@@ -65,14 +65,14 @@ export default function Navbar() {
           )}
         </ul>
 
-        <div className="hidden lg:flex items-center bg-base-200 rounded-md px-2 ml-4">
+        {/* <div className="hidden lg:flex items-center bg-base-200 rounded-md px-2 ml-4">
           <Search size={18} className="text-gray-500" />
           <input
             type="text"
             placeholder="Search"
             className="bg-transparent outline-none px-2 py-1 text-sm"
           />
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-4 ml-4">
           <ThemeToggle></ThemeToggle>
